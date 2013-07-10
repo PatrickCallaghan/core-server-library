@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="
+                http://www.springframework.org/schema/beans
+                http://www.springframework.org/schema/beans/spring-beans.xsd
+                http://www.springframework.org/schema/context
+                http://www.springframework.org/schema/context/spring-context.xsd
+                http://www.springframework.org/schema/util
+                http://www.springframework.org/schema/util/spring-util.xsd">
+
+	<import resource="classpath:core-spring-config.xml" />
+
+	<util:map id="healthCheckMap">
+		<entry key="templateCheck" value-ref="templateHealthCheck" />
+	</util:map>
+
+	<bean name="templateHealthCheck" class="com.heb.core.health.TemplateHealthCheck">
+		<constructor-arg index="0" value="TemplateHealthCheck" />
+	</bean>
+	
+
+
+	<!-- bean id="service" class="com.lab49.core.service.TestService" 
+		factory-bean="coreServiceFactory" factory-method="getCoreServiceProxy">
+		
+    	<constructor-arg index=2 ref="application"/>
+    	<constructor-arg index=3 value="ServiceNameFromSpring"/>
+	</bean> -->
+	
+</beans>

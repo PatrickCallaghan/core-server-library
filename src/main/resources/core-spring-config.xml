@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="
+                http://www.springframework.org/schema/beans
+                http://www.springframework.org/schema/beans/spring-beans.xsd
+                http://www.springframework.org/schema/context
+                http://www.springframework.org/schema/context/spring-context.xsd
+                http://www.springframework.org/schema/util
+                http://www.springframework.org/schema/util/spring-util.xsd">
+
+	<context:annotation-config />
+	<context:component-scan base-package="bean" />
+	<context:property-placeholder location="classpath:/base.properties" />
+
+	<bean id="exporter" class="org.springframework.jmx.export.MBeanExporter">
+		<property name="autodetect" value="true" />
+	</bean>
+
+	<bean name="metricRegistry" class="com.yammer.metrics.MetricRegistry" >
+		<constructor-arg index="0" value="TestService" />
+	</bean>
+	
+	<bean name="healthCheckRegistry" class="com.yammer.metrics.health.HealthCheckRegistry" />
+
+	<bean name="coreServiceFactory" class="com.heb.core.service.CoreServiceFactory"/>
+	
+	<bean name="properties" class="java.util.Properties"/>
+	
+	<bean name="application" class="com.heb.core.Application" init-method="init" destroy-method="cleanUp">
+		<constructor-arg index="0" ref="properties" />
+		<constructor-arg index="1" ref="metricRegistry" />
+		<constructor-arg index="2" ref="healthCheckRegistry" />		
+	</bean>
+	
+</beans>
